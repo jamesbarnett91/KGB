@@ -1,3 +1,5 @@
+package cpu
+
 class Registers {
 
   // General purpose registers
