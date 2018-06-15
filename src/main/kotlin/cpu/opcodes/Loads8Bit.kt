@@ -1,6 +1,7 @@
 package cpu.opcodes
 
 import cpu.Operation
+import BitManipulation as bm
 
 // 8-Bit Loads
 var loads8Bit = mapOf(
@@ -21,7 +22,8 @@ var loads8Bit = mapOf(
   0x0A to Operation("LD A,(BC)", 0, 8, {r, m, _ -> r.A = m.readByte(r.BC)}),
   0x1A to Operation("LD A,(DE)", 0, 8, {r, m, _ -> r.A = m.readByte(r.DE)}),
   0x7E to Operation("LD A,(HL)", 0, 8, {r, m, _ -> r.A = m.readByte(r.HL)}),
-  0x3E to Operation("LD A, n", 0, 8, {r, _, a -> r.A = a[0]}),
+  0x3E to Operation("LD A, n", 1, 8, {r, _, a -> r.A = a[0]}),
+  0xFA to Operation("LD A,(nn)", 2, 16, {r, m, a -> r.A = m.readByte(bm.argsToWord(a))}),
 
   0x40 to Operation("LD B,B", 0, 4, {r, _, _ -> r.B = r.B}),
   0x41 to Operation("LD B,C", 0, 4, {r, _, _ -> r.B = r.C}),
@@ -86,6 +88,24 @@ var loads8Bit = mapOf(
   0x57 to Operation("LD D,A", 0, 4, {r, _, _ -> r.D = r.A}),
   0x5F to Operation("LD E,A", 0, 4, {r, _, _ -> r.E = r.A}),
   0x67 to Operation("LD H,A", 0, 4, {r, _, _ -> r.H = r.A}),
-  0x6F to Operation("LD L,A", 0, 4, {r, _, _ -> r.L = r.A})
+  0x6F to Operation("LD L,A", 0, 4, {r, _, _ -> r.L = r.A}),
+  0x02 to Operation("LD (BC),A", 0, 8, {r, m, _ -> m.writeByte(r.BC, r.A)}),
+  0x12 to Operation("LD (DE),A", 0, 8, {r, m, _ -> m.writeByte(r.DE, r.A)}),
+  0x77 to Operation("LD (HL),A", 0, 8, {r, m, _ -> m.writeByte(r.HL, r.A)}),
+  0xEA to Operation("LD (nn),A", 2, 16, {r, m, a -> m.writeByte(bm.argsToWord(a), r.A)}),
+
+  0xF2 to Operation("LD A,(C)", 0, 8, {r, m, _ -> r.A = m.readByte(0xFF00 + r.C)}),
+  0xE2 to Operation("LD (C),A", 0, 8, {r, m, _ -> m.writeByte(0xFF00 + r.C, r.A)}),
+
+  0x3A to Operation("LDD A,(HL)", 0, 8, {r, m, _ -> r.A = m.readByte(r.getAndDecrementHL())}),
+  0x32 to Operation("LDD (HL),A", 0, 8, {r, m, _ -> m.writeByte(r.getAndDecrementHL(), r.A)}),
+
+  0x2A to Operation("LDI A,(HL)", 0, 8, {r, m, _ -> r.A = m.readByte(r.getAndIncrementHL())}),
+  0x22 to Operation("LDI (HL),A", 0, 8, {r, m, _ -> m.writeByte(r.getAndIncrementHL(), r.A)}),
+
+  0xE0 to Operation("LD (n),A", 1, 8, {r, m, a -> m.writeByte(0xFF00 + a[0], r.A)}),
+  0xF0 to Operation("LD A,(n)", 1, 8, {r, m, a -> r.A = m.readByte(0xFF00 + a[0])})
+
+
 
 )

@@ -99,5 +99,21 @@ class Registers {
       L = bm.getLsb(value)
     }
 
+  fun getAndDecrementHL(): Int {
+    val currentHL = HL
+    if(HL > 0x0000) { // TODO - is this correct? Or should it underflow to 0xFFFF?. Also for increment op.
+      HL--
+    }
+    return currentHL
+  }
+
+  fun getAndIncrementHL(): Int {
+    val currentHL = HL
+    if(HL < 0xFFFF) {
+      HL++
+    }
+    return currentHL
+  }
+
 
 }

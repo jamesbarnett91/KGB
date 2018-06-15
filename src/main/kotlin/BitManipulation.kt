@@ -4,6 +4,10 @@ object BitManipulation {
     return msb.shl(8) + lsb
   }
 
+  fun argsToWord(args: IntArray): Int {
+    return bytesToWord(args[1], args[0])
+  }
+
   fun getMsb(value: Int): Int {
     return value.shr(8)
   }
