@@ -115,5 +115,12 @@ class Registers {
     return currentHL
   }
 
+  fun decrementAndGetSP(): Int {
+    return if(SP > 0x0000) {
+      --SP
+    } else {
+      SP
+    }
+  }
 
 }
