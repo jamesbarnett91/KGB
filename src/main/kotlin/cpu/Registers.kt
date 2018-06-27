@@ -123,4 +123,12 @@ class Registers {
     }
   }
 
+  fun getAndIncrementSP(): Int {
+    val currentSP = SP
+    if(SP < 0xFFFF) {
+      SP++
+    }
+    return currentSP
+  }
+
 }

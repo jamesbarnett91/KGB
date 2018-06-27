@@ -1,6 +1,8 @@
 package cpu.opcodes
 
 import cpu.Operation
+import cpu.Registers
+import ram.Ram
 import BitManipulation as bm
 
 // 8-Bit Loads
@@ -35,6 +37,17 @@ var loads16Bit = mapOf(
   0xE5 to Operation("PUSH HL", 0, 16, {r, m, _ ->
     m.writeByte(r.decrementAndGetSP(), bm.getMsb(r.HL))
     m.writeByte(r.decrementAndGetSP(), bm.getLsb(r.HL))
-  })
+  }),
+
+  0xF1 to Operation("POP AF", 0, 12, {r, m, _ -> r.AF = pop(r, m)}),
+  0xC1 to Operation("POP BC", 0, 12, {r, m, _ -> r.BC = pop(r, m)}),
+  0xD1 to Operation("POP DE", 0, 12, {r, m, _ -> r.DE = pop(r, m)}),
+  0xE1 to Operation("POP HL", 0, 12, {r, m, _ -> r.HL = pop(r, m)})
 
 )
+
+fun pop(r: Registers, m: Ram): Int {
+  val lsb = m.readByte(r.getAndIncrementSP())
+  val msb = m.readByte(r.getAndIncrementSP())
+  return bm.bytesToWord(msb, lsb)
+}
