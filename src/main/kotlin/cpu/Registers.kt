@@ -131,4 +131,36 @@ class Registers {
     return currentSP
   }
 
+  fun getFlag(flag: Flag): Int {
+    return (F shr flag.bitPosition) and 0x01
+  }
+
+  fun setFlag(flag: Flag) {
+    F = F or (1 shl flag.bitPosition)
+  }
+
+  fun clearFlag(flag: Flag) {
+    F = F and (1 shl flag.bitPosition).inv()
+  }
+
+  fun setFlagFromBool(flag: Flag, isSet: Boolean) {
+    if(isSet) {
+      setFlag(flag)
+    }
+    else {
+      clearFlag(flag)
+    }
+  }
+
+  fun clearFlags() {
+    F = 0x00
+  }
+
+  enum class Flag(val bitPosition: Int) {
+    ZERO(7),
+    SUBTRACT(6),
+    HALF_CARRY(5),
+    CARRY(4),
+  }
+
 }

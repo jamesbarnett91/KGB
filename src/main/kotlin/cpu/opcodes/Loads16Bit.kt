@@ -2,6 +2,7 @@ package cpu.opcodes
 
 import cpu.Operation
 import cpu.Registers
+import cpu.Registers.Flag
 import ram.Ram
 import BitManipulation as bm
 
@@ -15,7 +16,27 @@ var loads16Bit = mapOf(
 
   0xF9 to Operation("LD SP,HL", 0, 8, {r, _, _ -> r.SP = r.HL}),
 
-  0xF8 to Operation("LDHL SP,n", 1, 12, {r, _, a -> r.HL = (r.SP + a[0])}), // TODO - not sure what the flags should be here
+  0xF8 to Operation("LDHL SP,n", 1, 12, {r, _, a ->
+
+    // https://stackoverflow.com/questions/5159603/gbz80-how-does-ld-hl-spe-affect-h-and-c-flags
+    // the carry flag is set if there's an overflow from the 7th to 8th bit.
+    // the half carry flag is set if there's an overflow from the 3rd into the 4th bit.
+    r.clearFlags()
+
+    val absoluteValue = bm.getAbsoluteValue(a[0])
+
+    if (bm.isSignedBitNegative(a[0])) {
+      r.setFlagFromBool(Flag.HALF_CARRY, r.SP and 0x0F < absoluteValue and 0x0F)
+      r.setFlagFromBool(Flag.CARRY,r.SP and 0xFF < absoluteValue)
+      r.HL = r.SP - absoluteValue
+
+    } else {
+      r.setFlagFromBool(Flag.HALF_CARRY,(r.SP and 0x0F) + (absoluteValue and 0x0F) > 0x0F)
+      r.setFlagFromBool(Flag.CARRY,(r.SP and 0xFF) + absoluteValue > 0xFF)
+      r.HL = r.SP + absoluteValue
+    }
+
+  }),
   0x08 to Operation("LD (nn),SP", 2, 20, {r, m, a ->
     m.writeByte(bm.argsToWord(a), bm.getLsb(r.SP))
     m.writeByte(bm.argsToWord(a) + 1, bm.getMsb(r.SP))

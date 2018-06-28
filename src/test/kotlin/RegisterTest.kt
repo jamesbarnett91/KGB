@@ -1,4 +1,6 @@
+
 import cpu.Registers
+import cpu.Registers.Flag
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.StringSpec
@@ -122,6 +124,58 @@ class RegisterTest : StringSpec({
 
     reg.PC = 0xAAFE
     reg.PC shouldBe 0xAAFE
+  }
+
+  "Test flags" {
+    val reg = Registers()
+
+    reg.getFlag(Flag.ZERO) shouldBe 0
+    reg.getFlag(Flag.SUBTRACT) shouldBe 0
+    reg.getFlag(Flag.HALF_CARRY) shouldBe 0
+    reg.getFlag(Flag.CARRY) shouldBe 0
+
+    reg.setFlag(Flag.ZERO)
+    reg.setFlag(Flag.SUBTRACT)
+    reg.setFlag(Flag.HALF_CARRY)
+    reg.setFlag(Flag.CARRY)
+
+    reg.getFlag(Flag.ZERO) shouldBe 1
+    reg.getFlag(Flag.SUBTRACT) shouldBe 1
+    reg.getFlag(Flag.HALF_CARRY) shouldBe 1
+    reg.getFlag(Flag.CARRY) shouldBe 1
+    reg.F shouldBe 0xF0
+
+    reg.clearFlag(Flag.ZERO)
+    reg.clearFlag(Flag.SUBTRACT)
+    reg.clearFlag(Flag.HALF_CARRY)
+    reg.clearFlag(Flag.CARRY)
+
+    reg.getFlag(Flag.ZERO) shouldBe 0
+    reg.getFlag(Flag.SUBTRACT) shouldBe 0
+    reg.getFlag(Flag.HALF_CARRY) shouldBe 0
+    reg.getFlag(Flag.CARRY) shouldBe 0
+    reg.F shouldBe 0x00
+
+    reg.setFlag(Flag.ZERO)
+    reg.setFlag(Flag.HALF_CARRY)
+
+    reg.getFlag(Flag.ZERO) shouldBe 1
+    reg.getFlag(Flag.SUBTRACT) shouldBe 0
+    reg.getFlag(Flag.HALF_CARRY) shouldBe 1
+    reg.getFlag(Flag.CARRY) shouldBe 0
+    reg.F shouldBe 0xA0 // 10100000
+
+    reg.setFlag(Flag.SUBTRACT)
+    reg.setFlag(Flag.CARRY)
+    reg.clearFlag(Flag.ZERO)
+    reg.clearFlag(Flag.HALF_CARRY)
+
+    reg.getFlag(Flag.ZERO) shouldBe 0
+    reg.getFlag(Flag.SUBTRACT) shouldBe 1
+    reg.getFlag(Flag.HALF_CARRY) shouldBe 0
+    reg.getFlag(Flag.CARRY) shouldBe 1
+    reg.F shouldBe 0x50 // 01010000
+
   }
 
 })
