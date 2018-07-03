@@ -6,7 +6,6 @@ import cpu.Registers.Flag
 import ram.Ram
 import BitManipulation as bm
 
-// 8-Bit Loads
 var loads16Bit = mapOf(
 
   0x01 to Operation("LD BC,nn", 2, 12, {r, _, a -> r.BC = bm.argsToWord(a)}),
