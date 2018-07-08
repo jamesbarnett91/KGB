@@ -66,7 +66,7 @@ var loads16Bit = mapOf(
 
 )
 
-fun pop(r: Registers, m: Ram): Int {
+private fun pop(r: Registers, m: Ram): Int {
   val lsb = m.readByte(r.getAndIncrementSP())
   val msb = m.readByte(r.getAndIncrementSP())
   return bm.bytesToWord(msb, lsb)

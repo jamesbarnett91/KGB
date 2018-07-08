@@ -108,7 +108,7 @@ var arithmetic8Bit = mapOf(
   0x35 to Operation("DEC (HL)", 0, 12, {r, m, _ -> m.writeByte(r.HL, dec(m.readByte(r.HL), r))})
 )
 
-fun add(n1: Int, n2: Int, r: Registers): Int {
+private fun add(n1: Int, n2: Int, r: Registers): Int {
 
   val result = maskedAdd(n1, n2)
 
@@ -120,7 +120,7 @@ fun add(n1: Int, n2: Int, r: Registers): Int {
   return result
 }
 
-fun addWithCarry(n1: Int, n2: Int, r: Registers): Int {
+private fun addWithCarry(n1: Int, n2: Int, r: Registers): Int {
 
   val carry = r.getFlag(Flag.CARRY)
   val result = maskedAdd(n1, n2, carry)
@@ -133,11 +133,11 @@ fun addWithCarry(n1: Int, n2: Int, r: Registers): Int {
   return result
 }
 
-fun maskedAdd(vararg n: Int): Int {
+private fun maskedAdd(vararg n: Int): Int {
   return (n.sum()) and 0xFF
 }
 
-fun subtract(n1: Int, n2: Int, r: Registers): Int {
+private fun subtract(n1: Int, n2: Int, r: Registers): Int {
 
   r.setFlag(Flag.SUBTRACT)
   r.setFlagFromBool(Flag.ZERO, (n1 - n2) and 0xFF == 0)
@@ -147,7 +147,7 @@ fun subtract(n1: Int, n2: Int, r: Registers): Int {
   return (n1 - n2) % 0xFF
 }
 
-fun subtractWithCarry(n1: Int, n2: Int, r: Registers): Int {
+private fun subtractWithCarry(n1: Int, n2: Int, r: Registers): Int {
 
   val carry = r.getFlag(Flag.CARRY)
 
@@ -159,7 +159,7 @@ fun subtractWithCarry(n1: Int, n2: Int, r: Registers): Int {
   return (n1 - n2 - carry) % 0xFF
 }
 
-fun and(n1: Int, n2: Int, r: Registers): Int {
+private fun and(n1: Int, n2: Int, r: Registers): Int {
 
   val result = n1 and n2
 
@@ -171,7 +171,7 @@ fun and(n1: Int, n2: Int, r: Registers): Int {
   return result
 }
 
-fun or(n1: Int, n2: Int, r: Registers): Int {
+private fun or(n1: Int, n2: Int, r: Registers): Int {
 
   val result = n1 or n2
 
@@ -183,7 +183,7 @@ fun or(n1: Int, n2: Int, r: Registers): Int {
   return result
 }
 
-fun xor(n1: Int, n2: Int, r: Registers): Int {
+private fun xor(n1: Int, n2: Int, r: Registers): Int {
 
   val result = n1 xor n2
 
@@ -195,7 +195,7 @@ fun xor(n1: Int, n2: Int, r: Registers): Int {
   return result
 }
 
-fun inc(n: Int, r: Registers): Int {
+private fun inc(n: Int, r: Registers): Int {
 
   val result = (n + 1) and 0xFF
 
@@ -206,7 +206,7 @@ fun inc(n: Int, r: Registers): Int {
   return result
 }
 
-fun dec(n: Int, r: Registers): Int {
+private fun dec(n: Int, r: Registers): Int {
 
   val result = (n - 1) and 0xFF
 
