@@ -8,15 +8,22 @@ class Cpu {
   val registers = Registers()
   val ram = Ram()
 
-  var opcodes: Map<Int, Operation>
+  var standardOpcodes: Map<Int, Operation>
+  var extendedOpcodes: Map<Int, Operation>
   init {
-    val commandGroups: MutableMap<Int, Operation> = mutableMapOf()
-    commandGroups.putAll(loads8Bit)
-    commandGroups.putAll(loads16Bit)
-    commandGroups.putAll(arithmetic8Bit)
-    commandGroups.putAll(arithmetic16Bit)
-    commandGroups.putAll(misc)
-    opcodes = commandGroups.toMap()
+    val stdCommandGroup: MutableMap<Int, Operation> = mutableMapOf()
+    stdCommandGroup.putAll(loads8Bit)
+    stdCommandGroup.putAll(loads16Bit)
+    stdCommandGroup.putAll(arithmetic8Bit)
+    stdCommandGroup.putAll(arithmetic16Bit)
+    stdCommandGroup.putAll(misc)
+    standardOpcodes = stdCommandGroup.toMap()
+
+    val extCommandGroup: MutableMap<Int, Operation> = mutableMapOf()
+    extCommandGroup.putAll(miscExtended)
+    extendedOpcodes = extCommandGroup.toMap()
+
+
   }
 
 }
