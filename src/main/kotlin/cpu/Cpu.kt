@@ -17,10 +17,12 @@ class Cpu {
     stdCommandGroup.putAll(arithmetic8Bit)
     stdCommandGroup.putAll(arithmetic16Bit)
     stdCommandGroup.putAll(misc)
+    stdCommandGroup.putAll(rotates)
     standardOpcodes = stdCommandGroup.toMap()
 
     val extCommandGroup: MutableMap<Int, Operation> = mutableMapOf()
     extCommandGroup.putAll(miscExtended)
+    extCommandGroup.putAll(rotatesExtended)
     extendedOpcodes = extCommandGroup.toMap()
 
 
