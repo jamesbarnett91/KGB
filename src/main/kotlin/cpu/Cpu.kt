@@ -23,6 +23,7 @@ class Cpu {
     val extCommandGroup: MutableMap<Int, Operation> = mutableMapOf()
     extCommandGroup.putAll(miscExtended)
     extCommandGroup.putAll(rotatesExtended)
+    extCommandGroup.putAll(shiftsExtended)
     extendedOpcodes = extCommandGroup.toMap()
 
 
