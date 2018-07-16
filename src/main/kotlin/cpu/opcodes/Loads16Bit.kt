@@ -24,7 +24,7 @@ var loads16Bit = mapOf(
 
     val absoluteValue = bm.getAbsoluteValue(a[0])
 
-    if (bm.isSignedBitNegative(a[0])) {
+    if (bm.isSignedByteNegative(a[0])) {
       r.setFlagFromBool(Flag.HALF_CARRY, r.SP and 0x0F < absoluteValue and 0x0F)
       r.setFlagFromBool(Flag.CARRY,r.SP and 0xFF < absoluteValue)
       r.HL = r.SP - absoluteValue

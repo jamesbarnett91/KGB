@@ -131,6 +131,14 @@ class Registers {
     return currentSP
   }
 
+  fun addSignedByteToPC(byte: Int) {
+    PC = if (bm.isSignedByteNegative(byte)) {
+      (PC - bm.getAbsoluteValue(byte)) and 0xFFFF
+    } else {
+      (PC + bm.getAbsoluteValue(byte)) and 0xFFFF
+    }
+  }
+
   fun getFlag(flag: Flag): Int {
     return (F shr flag.bitPosition) and 0x01
   }

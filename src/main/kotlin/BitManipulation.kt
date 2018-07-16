@@ -28,12 +28,12 @@ object BitManipulation {
     }
   }
 
-  fun isSignedBitNegative(value: Int): Boolean {
+  fun isSignedByteNegative(value: Int): Boolean {
     return value and (1 shl 7) != 0
   }
 
   fun getAbsoluteValue(value: Int ): Int{
-    return if(isSignedBitNegative(value)) {
+    return if(isSignedByteNegative(value)) {
       0x0100 - value // 1 00000000 - 1xxxxxx = value, due to 2s compliment
     } else {
       value
