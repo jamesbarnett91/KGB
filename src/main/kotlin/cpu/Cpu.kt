@@ -19,6 +19,7 @@ class Cpu {
     stdCommandGroup.putAll(misc)
     stdCommandGroup.putAll(rotates)
     stdCommandGroup.putAll(jumps)
+    stdCommandGroup.putAll(calls)
     standardOpcodes = stdCommandGroup.toMap()
 
     val extCommandGroup: MutableMap<Int, Operation> = mutableMapOf()
