@@ -24,8 +24,8 @@ class Cpu {
     extCommandGroup.putAll(miscExtended)
     extCommandGroup.putAll(rotatesExtended)
     extCommandGroup.putAll(shiftsExtended)
+    extCommandGroup.putAll(generateExtendedBitOps())
     extendedOpcodes = extCommandGroup.toMap()
-
 
   }
 
