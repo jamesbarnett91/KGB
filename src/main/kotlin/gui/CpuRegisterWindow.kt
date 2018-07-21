@@ -7,7 +7,7 @@ import imgui.ImGui
 
 fun paintCpuRegisterWindow(registers: Registers) {
   with(ImGui) {
-    setNextWindowSize(Vec2(200, 300), Cond.FirstUseEver)
+    setNextWindowSize(Vec2(200, 250), Cond.FirstUseEver)
     setNextWindowPos(Vec2(20, 150), Cond.FirstUseEver)
     begin("CPU state")
 

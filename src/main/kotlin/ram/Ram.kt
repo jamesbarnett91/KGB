@@ -13,4 +13,11 @@ class Ram {
     ram[address] = data
   }
 
+  fun load(rom: ByteArray) {
+
+    rom.forEachIndexed{i, b ->
+      ram[i] = b.toInt() and 0xFF
+    }
+  }
+
 }

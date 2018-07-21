@@ -10,6 +10,7 @@ import imgui.impl.LwjglGL3
 import org.lwjgl.opengl.GL11
 import uno.glfw.GlfwWindow
 import uno.glfw.glfw
+import java.io.File
 
 class WindowContainer {
 
@@ -18,6 +19,10 @@ class WindowContainer {
   init {
     glfw.init("3.2")
     cpu = Cpu()
+    val file = File("src/main/resources/roms/boot-rom.gb")
+    val rom = file.readBytes()
+    cpu.loadRom(rom)
+    //cpu.run()
   }
 
   val window = GlfwWindow(1280, 720, "KGB - KotlinGameBoy").apply {
@@ -52,6 +57,7 @@ class WindowContainer {
       paintDebugWindow()
       paintEmulationOutputWindow()
       paintCpuRegisterWindow(cpu.registers)
+      paintRunControlWindow(cpu)
     }
 
     gln.glViewport(window.framebufferSize)
