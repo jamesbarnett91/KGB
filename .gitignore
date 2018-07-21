@@ -23,5 +23,6 @@ bin
 *.log
 *.swp
 *.bak
+*.ini
 
 src/main/kotlin/Scratch.kt

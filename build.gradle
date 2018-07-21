@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 buildscript {
   ext.kotlin_version = '1.2.31'
 
@@ -16,6 +18,9 @@ apply plugin: 'kotlin'
 
 repositories {
   mavenCentral()
+  maven { url "https://dl.bintray.com/kotlin/kotlin-dev" }
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+  maven { url 'https://jitpack.io' }
 }
 
 test {
@@ -24,6 +29,27 @@ test {
 
 dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+  compile 'com.github.kotlin-graphics:imgui:v1.62-beta-02'
+
+  switch (OperatingSystem.current()) {
+    case OperatingSystem.WINDOWS:
+      ext.lwjglNatives = "natives-windows"
+      break
+    case OperatingSystem.LINUX:
+      ext.lwjglNatives = "natives-linux"
+      break
+    case OperatingSystem.MAC_OS:
+      ext.lwjglNatives = "natives-macos"
+      break
+  }
+
+  // Look up which modules and versions of LWJGL are required and add setup the appropriate natives.
+  configurations.compile.resolvedConfiguration.getResolvedArtifacts().forEach {
+    if (it.moduleVersion.id.group == "org.lwjgl") {
+      runtime "org.lwjgl:${it.moduleVersion.id.name}:${it.moduleVersion.id.version}:${lwjglNatives}"
+    }
+  }
 
   testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.7'
 }
