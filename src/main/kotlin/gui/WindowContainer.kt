@@ -58,6 +58,7 @@ class WindowContainer {
       paintEmulationOutputWindow()
       paintCpuRegisterWindow(cpu.registers)
       paintRunControlWindow(cpu)
+      paintRamDumpWindow(cpu.ram)
     }
 
     gln.glViewport(window.framebufferSize)

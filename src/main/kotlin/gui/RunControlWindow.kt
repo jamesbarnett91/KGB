@@ -8,7 +8,9 @@ import imgui.ImGui
 fun paintRunControlWindow(cpu: Cpu) {
   with(ImGui) {
 
-    setNextWindowPos(Vec2(20, 410), Cond.FirstUseEver)
+    setNextWindowSize(Vec2(120, 200), Cond.FirstUseEver)
+    setNextWindowPos(Vec2(220, 80), Cond.FirstUseEver)
+
     begin("Run control")
 
     text("Current op:")
