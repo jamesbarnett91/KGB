@@ -14,7 +14,8 @@ import imgui.Context
 import imgui.ImGui
 import imgui.TextureID
 import imgui.destroy
-import imgui.impl.LwjglGL3
+import imgui.impl.ImplGL3
+import imgui.impl.LwjglGlfw
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL30
 import uno.glfw.GlfwWindow
@@ -44,12 +45,12 @@ class WindowContainer {
     glfw.swapInterval = 1
 
     val ctx = Context()
-    LwjglGL3.init(window)
+    LwjglGlfw.init(window)
     ImGui.styleColorsDark()
 
     window.loop(::mainLoop)
 
-    LwjglGL3.shutdown()
+    LwjglGlfw.shutdown()
     ctx.destroy()
 
     window.destroy()
@@ -59,7 +60,7 @@ class WindowContainer {
 
   private fun mainLoop() {
 
-    LwjglGL3.newFrame()
+    LwjglGlfw.newFrame()
 
     val (texture, textureId) = createAndRegisterTexture(gameBoy.gpu.getFrame())
 
@@ -76,7 +77,7 @@ class WindowContainer {
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT)
 
     ImGui.render()
-    LwjglGL3.renderDrawData(ImGui.drawData!!)
+    ImplGL3.renderDrawData(ImGui.drawData!!)
 
     // TODO - render direct to framebuffer rather than creating and destroying texture each frame
     disposeTexture(texture, textureId)

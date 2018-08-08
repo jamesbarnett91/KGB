@@ -30,7 +30,7 @@ test {
 dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-  compile 'com.github.kotlin-graphics:imgui:v1.62-beta-02'
+  compile 'com.github.kotlin-graphics:imgui:v1.63-beta-01'
 
   switch (OperatingSystem.current()) {
     case OperatingSystem.WINDOWS:
