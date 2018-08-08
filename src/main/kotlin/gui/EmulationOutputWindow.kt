@@ -1,15 +1,22 @@
 package gui
 
 import glm_.vec2.Vec2
-import imgui.Cond
-import imgui.ImGui
+import imgui.*
 
-fun paintEmulationOutputWindow() {
+fun paintEmulationOutputWindow(frame: TextureID) {
   with(ImGui) {
-    setNextWindowSize(Vec2(640, 576), Cond.FirstUseEver)
+
+    pushStyleVar(StyleVar.WindowPadding, Vec2(0))
+
+    setNextWindowSize(Vec2(640, 596), Cond.FirstUseEver)
     setNextWindowPos(Vec2(620, 10), Cond.FirstUseEver)
-    begin("Emulation output - 4x scale")
-    text("TODO - actually render something...")
+
+    begin("Emulation output - 4x scale", flags_ =  WindowFlag.NoScrollbar or WindowFlag.NoResize)
+
+      image(frame, Vec2(640,576))
+
     end()
+
+    popStyleVar()
   }
 }
